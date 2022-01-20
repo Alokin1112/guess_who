@@ -1,0 +1,27 @@
+const app = require("express");
+const httpServer = require("http").createServer(app);
+const io = require("socket.io")(httpServer, {
+  cors: true,
+  origins: ["*"],
+});
+io.on("connection", (socket) => {
+  /*console.log("User connected");
+  socket.emit("message", "Hello");
+
+  socket.on("startGame", ({ gameId }) => {
+    createGame().then((words) => {
+      io.to(gameId).emit("startGame", words);
+      console.log(`Started Game at ${gameId}`);
+    });
+  });
+
+  socket.on("joinGame", ({ gameId }) => {
+    socket.join(gameId);
+    console.log(`Player joined the room: ${gameId}`);
+    socket.to(gameId).emit("joinGame", "A player joined the game!");
+  });*/
+});
+const PORT = process.env.PORT || 3000;
+httpServer.listen(PORT, () => {
+  console.log(`Server Listening on Port: ${PORT}`);
+});
