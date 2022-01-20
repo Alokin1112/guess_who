@@ -5,7 +5,7 @@ const io = require("socket.io")(httpServer, {
   origins: ["*"],
 });
 io.on("connection", (socket) => {
-  /*console.log("User connected");
+  console.log("User connected"); /*
   socket.emit("message", "Hello");
 
   socket.on("startGame", ({ gameId }) => {
@@ -15,11 +15,18 @@ io.on("connection", (socket) => {
     });
   });
 
+  */
   socket.on("joinGame", ({ gameId }) => {
     socket.join(gameId);
     console.log(`Player joined the room: ${gameId}`);
     socket.to(gameId).emit("joinGame", "A player joined the game!");
-  });*/
+  });
+  socket.on("sendMessage", ({ gameId, message }) => {
+    socket.to(gameId).emit("sendMessage", message);
+  });
+  socket.on("sendAnswer", ({ gameId, message }) => {
+    socket.to(gameId).emit("sendAnswer", message);
+  });
 });
 const PORT = process.env.PORT || 3000;
 httpServer.listen(PORT, () => {

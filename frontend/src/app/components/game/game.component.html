@@ -1,0 +1,23 @@
+<div>
+  <button mat-button (click)="role = 'picker'">Change to Picker</button>
+  <button mat-button (click)="role = 'guesser'">Change To Guesser</button>
+  <p>{{ role }}</p>
+</div>
+<div *ngFor="let msg of messages">
+  <h2>{{ msg.content }}</h2>
+  <div *ngIf="role == 'picker' && msg.answer == ''">
+    <button mat-raised-button (click)="answer(msg, 'yes')">Yes</button>
+    <button mat-raised-button (click)="answer(msg, 'idk')">I don't know</button>
+    <button mat-raised-button (click)="answer(msg, 'no')">No</button>
+  </div>
+  <p>{{ msg.sender }}</p>
+  <p>{{ msg.answer }}</p>
+</div>
+
+<form action="" [formGroup]="chat" (submit)="sendQuestion()">
+  <mat-form-field>
+    <mat-label>Question</mat-label>
+    <input type="text" matInput formControlName="msg" />
+  </mat-form-field>
+  <button mat-raised-button type="submit">Send</button>
+</form>
