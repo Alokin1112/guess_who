@@ -8,9 +8,12 @@ import { LoginComponent } from './components/login/login.component';
 import { GameComponent } from './components/game/game.component';
 import { MaterialModule } from './material/material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ChatWrapperComponent } from './components/chat/chat-wrapper/chat-wrapper.component';
+import { ChatMessageComponent } from './components/chat/chat-message/chat-message.component';
+import { ChatSenderComponent } from './components/chat/chat-sender/chat-sender.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, GameComponent],
+  declarations: [AppComponent, LoginComponent, GameComponent, ChatWrapperComponent, ChatMessageComponent, ChatSenderComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

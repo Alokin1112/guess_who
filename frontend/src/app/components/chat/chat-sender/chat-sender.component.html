@@ -1,0 +1,7 @@
+<form action="" [formGroup]="chat" (submit)="sendQuestion()">
+  <mat-form-field>
+    <mat-label>Question</mat-label>
+    <input type="text" matInput formControlName="msg" />
+  </mat-form-field>
+  <button mat-raised-button type="submit">Send</button>
+</form>

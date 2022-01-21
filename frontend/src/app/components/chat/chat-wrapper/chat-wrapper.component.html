@@ -1,0 +1,6 @@
+<app-chat-message
+  [messages]="messages"
+  [role]="role"
+  (sendAnswer)="answer($event)"
+></app-chat-message>
+<app-chat-sender (sendMSG)="sendQuestion($event)"></app-chat-sender>
