@@ -1,6 +1,7 @@
 <button mat-raised-button (click)="reset()">Reset</button>
 <button mat-raised-button (click)="toogleVisibility()">
-  Toogle Visibility
+  <span *ngIf="isGreyVisible">Hide Greyed Out</span>
+  <span *ngIf="!isGreyVisible">Show Greyed Out</span>
 </button>
 <div>
   <app-champ-item

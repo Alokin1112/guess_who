@@ -42,10 +42,8 @@ export class ChatWrapperComponent implements OnInit {
   }
   receiveAnswer() {
     this.socketService.receiveAnswer().subscribe((message: any) => {
-      console.log(message);
       this.messages.forEach((item) => {
-        if (item.sender == message.sender && item.content == message.content)
-          item.answer = message.answer;
+        if (item.content == message.content) item.answer = message.answer;
       });
     });
   }

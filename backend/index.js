@@ -28,7 +28,9 @@ io.on("connection", (socket) => {
       .to(gameId)
       .emit("joinGame", `Player called ${socket.nickname} joined the game!`);
   });
-
+  socket.on("startGame", async ({ gameId }) => {
+    const socket = await io.in(gameId).fetchSockets(); //pobranie uzytkownikow w pokoju
+  });
   socket.on("sendMessage", ({ gameId, message }) => {
     message.sender = socket.nickname;
     socket.to(gameId).emit("sendMessage", message);

@@ -9,7 +9,9 @@ export class ChampListComponent implements OnInit {
   constructor() {}
   champs: Array<Champ> = CHAMP_LIST.slice(0, 5);
   isGreyVisible: boolean = true;
+
   ngOnInit(): void {}
+
   reset() {
     this.champs.forEach((champ) => (champ.isGreyed = false));
   }
