@@ -25,7 +25,7 @@ export class ChatWrapperComponent implements OnInit {
   sendQuestion(content: string) {
     let msg: MSG = {
       content: content,
-      sender: 'gracz',
+      sender: 'me',
       answer: '',
     };
     this.messages.push(msg);

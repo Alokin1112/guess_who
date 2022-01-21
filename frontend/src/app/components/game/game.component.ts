@@ -12,24 +12,19 @@ import { MSG } from 'src/app/type';
 export class GameComponent implements OnInit {
   gameId: string = '';
   role: string = 'guesser';
+  nickname: string = '';
   constructor(
     private _route: ActivatedRoute,
     private socketService: SocketioService,
     private snackbar: MatSnackBar
   ) {}
 
-  messages: Array<MSG> = [];
-  chat: FormGroup = new FormGroup({
-    msg: new FormControl(''),
+  name: FormGroup = new FormGroup({
+    nickname: new FormControl(''),
   });
 
   ngOnInit(): void {
     this.gameId = this._route.snapshot.paramMap.get('id') || '';
-    console.log(this.gameId);
-    this.socketService.connect(this.gameId);
-    this.receiveJoinedPlayers();
-    this.receiveMessage();
-    this.receiveAnswer();
   }
 
   receiveJoinedPlayers() {
@@ -39,37 +34,11 @@ export class GameComponent implements OnInit {
       });
     });
   }
-  receiveMessage() {
-    this.socketService.receiveMessage().subscribe((message: any) => {
-      this.messages.push(message);
-    });
-  }
-  sendQuestion() {
-    let msg: MSG = {
-      content: this.chat.get('msg')?.value,
-      sender: 'gracz',
-      answer: '',
-    };
-    this.messages.push(msg);
-    this.socketService.sendMessage(this.gameId, msg);
-    this.chat.get('msg')?.reset();
-  }
-  answer(msg: MSG, answer: string) {
-    if (this.role == 'picker') {
-      this.messages[this.messages.indexOf(msg)].answer = answer;
-      this.socketService.sendAnswer(
-        this.gameId,
-        this.messages[this.messages.indexOf(msg)]
-      );
+  setNickname() {
+    this.nickname = this.name.get('nickname')?.value;
+    if (this.nickname) {
+      this.socketService.connect(this.gameId, this.nickname);
+      this.receiveJoinedPlayers();
     }
-  }
-  receiveAnswer() {
-    this.socketService.receiveAnswer().subscribe((message: any) => {
-      console.log(message);
-      this.messages.forEach((item) => {
-        if (item.sender == message.sender && item.content == message.content)
-          item.answer = message.answer;
-      });
-    });
   }
 }

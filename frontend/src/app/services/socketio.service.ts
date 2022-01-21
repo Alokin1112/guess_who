@@ -9,9 +9,9 @@ import { MSG } from '../type';
 export class SocketioService {
   socket!: Socket;
   constructor() {}
-  connect(gameId: string) {
+  connect(gameId: string, nickname: string) {
     this.socket = io(environment.SOCKET_ENDPOINT);
-    this.socket.emit('joinGame', { gameId: gameId });
+    this.socket.emit('joinGame', { gameId: gameId, nickname: nickname });
   }
   receiveJoinedPlayers() {
     return new Observable((observer) => {

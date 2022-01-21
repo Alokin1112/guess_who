@@ -11,9 +11,20 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ChatWrapperComponent } from './components/chat/chat-wrapper/chat-wrapper.component';
 import { ChatMessageComponent } from './components/chat/chat-message/chat-message.component';
 import { ChatSenderComponent } from './components/chat/chat-sender/chat-sender.component';
+import { ChampListComponent } from './components/champ/champ-list/champ-list.component';
+import { ChampItemComponent } from './components/champ/champ-item/champ-item.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, GameComponent, ChatWrapperComponent, ChatMessageComponent, ChatSenderComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    GameComponent,
+    ChatWrapperComponent,
+    ChatMessageComponent,
+    ChatSenderComponent,
+    ChampListComponent,
+    ChampItemComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,

@@ -1,0 +1,13 @@
+<button mat-raised-button (click)="reset()">Reset</button>
+<button mat-raised-button (click)="toogleVisibility()">
+  Toogle Visibility
+</button>
+<div>
+  <app-champ-item
+    *ngFor="let champ of champs"
+    [champ]="champ"
+    [isGreyVisible]="isGreyVisible"
+    (toogleGrey)="changeState($event)"
+  >
+  </app-champ-item>
+</div>

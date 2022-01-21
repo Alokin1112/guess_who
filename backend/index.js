@@ -7,7 +7,7 @@ const io = require("socket.io")(httpServer, {
 io.on("connection", (socket) => {
   console.log("User connected"); /*
   socket.emit("message", "Hello");
-
+  
   socket.on("startGame", ({ gameId }) => {
     createGame().then((words) => {
       io.to(gameId).emit("startGame", words);
@@ -16,14 +16,24 @@ io.on("connection", (socket) => {
   });
 
   */
-  socket.on("joinGame", ({ gameId }) => {
-    socket.join(gameId);
-    console.log(`Player joined the room: ${gameId}`);
-    socket.to(gameId).emit("joinGame", "A player joined the game!");
+  socket.on("disconnect", () => {
+    console.log("User Left----");
   });
+
+  socket.on("joinGame", ({ gameId, nickname }) => {
+    socket.join(gameId);
+    socket.nickname = nickname;
+    console.log(`Player called ${socket.nickname} joined the room: ${gameId}`);
+    socket
+      .to(gameId)
+      .emit("joinGame", `Player called ${socket.nickname} joined the game!`);
+  });
+
   socket.on("sendMessage", ({ gameId, message }) => {
+    message.sender = socket.nickname;
     socket.to(gameId).emit("sendMessage", message);
   });
+
   socket.on("sendAnswer", ({ gameId, message }) => {
     socket.to(gameId).emit("sendAnswer", message);
   });

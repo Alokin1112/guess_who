@@ -1,6 +1,18 @@
-<div>
-  <button mat-button (click)="role = 'picker'">Change to Picker</button>
-  <button mat-button (click)="role = 'guesser'">Change To Guesser</button>
-  <p>{{ role }}</p>
+<div *ngIf="nickname">
+  <div>
+    <button mat-button (click)="role = 'picker'">Change to Picker</button>
+    <button mat-button (click)="role = 'guesser'">Change To Guesser</button>
+    <p>{{ role }}</p>
+  </div>
+  <app-chat-wrapper [role]="role" [gameId]="gameId"></app-chat-wrapper>
+  <app-champ-list></app-champ-list>
 </div>
-<app-chat-wrapper [role]="role" [gameId]="gameId"></app-chat-wrapper>
+<div *ngIf="nickname == ''">
+  <form action="" [formGroup]="name" (submit)="setNickname()">
+    <mat-form-field>
+      <mat-label>Nickname</mat-label>
+      <input type="text" matInput formControlName="nickname" />
+    </mat-form-field>
+    <button mat-raised-button type="submit">Set</button>
+  </form>
+</div>
