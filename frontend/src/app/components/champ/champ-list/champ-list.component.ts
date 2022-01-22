@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Champ, CHAMP_LIST } from '../../../../assets/lolChamps';
 @Component({
   selector: 'app-champ-list',
@@ -7,13 +8,19 @@ import { Champ, CHAMP_LIST } from '../../../../assets/lolChamps';
 })
 export class ChampListComponent implements OnInit {
   constructor() {}
-  champs: Array<Champ> = CHAMP_LIST.slice(0, 5);
+  champs: Array<Champ> = CHAMP_LIST.slice(0, 20);
+  champResults = this.champs;
   isGreyVisible: boolean = true;
 
   ngOnInit(): void {}
-
+  search: FormControl = new FormControl('');
+  champResult() {
+    return this.champs.filter((champ) =>
+      champ.name.toLowerCase().startsWith(this.search.value.toLowerCase())
+    );
+  }
   reset() {
-    this.champs.forEach((champ) => (champ.isGreyed = false));
+    this.champResults.forEach((champ) => (champ.isGreyed = false));
   }
   toogleVisibility() {
     this.isGreyVisible = !this.isGreyVisible;
