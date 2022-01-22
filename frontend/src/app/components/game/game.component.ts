@@ -11,8 +11,9 @@ import { MSG } from 'src/app/type';
 })
 export class GameComponent implements OnInit {
   gameId: string = '';
-  role: string = 'guesser';
+  role: string = '';
   nickname: string = '';
+  playersList: Array<string> = [];
   constructor(
     private _route: ActivatedRoute,
     private socketService: SocketioService,
@@ -28,17 +29,31 @@ export class GameComponent implements OnInit {
   }
 
   receiveJoinedPlayers() {
-    this.socketService.receiveJoinedPlayers().subscribe((message) => {
-      this.snackbar.open(String(message), '', {
-        duration: 2000,
-      });
+    this.socketService.receiveJoinedPlayers().subscribe((nicks: any) => {
+      this.playersList = nicks;
+      this.snackbar.open(
+        'Player ' + String(nicks[nicks.length - 1]) + ' has joined the game',
+        '',
+        {
+          duration: 2000,
+        }
+      );
     });
+  }
+  receiveStartGame() {
+    this.socketService
+      .receiveStartGame()
+      .subscribe((role: any) => (this.role = role));
+  }
+  startGame() {
+    this.socketService.startGame(this.gameId);
   }
   setNickname() {
     this.nickname = this.name.get('nickname')?.value;
     if (this.nickname) {
       this.socketService.connect(this.gameId, this.nickname);
       this.receiveJoinedPlayers();
+      this.receiveStartGame();
     }
   }
 }

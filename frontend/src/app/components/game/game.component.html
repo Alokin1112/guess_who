@@ -4,9 +4,17 @@
     <button mat-button (click)="role = 'guesser'">Change To Guesser</button>
     <p>{{ role }}</p>
   </div>
-  <app-chat-wrapper [role]="role" [gameId]="gameId"></app-chat-wrapper>
-  <app-champ-list></app-champ-list>
+  <div *ngIf="role">
+    <app-chat-wrapper [role]="role" [gameId]="gameId"></app-chat-wrapper>
+    <app-champ-list></app-champ-list>
+  </div>
+
+  <div *ngIf="!role">
+    <button mat-raised-button (click)="startGame()">Start Game</button>
+  </div>
+  <app-player-list [players]="playersList"></app-player-list>
 </div>
+
 <div *ngIf="nickname == ''">
   <form action="" [formGroup]="name" (submit)="setNickname()">
     <mat-form-field>

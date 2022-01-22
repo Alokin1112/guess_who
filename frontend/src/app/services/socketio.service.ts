@@ -15,8 +15,8 @@ export class SocketioService {
   }
   receiveJoinedPlayers() {
     return new Observable((observer) => {
-      this.socket.on('joinGame', (message: string) => {
-        observer.next(message);
+      this.socket.on('joinGame', (nicks: Array<string>) => {
+        observer.next(nicks);
       });
     });
   }
@@ -38,6 +38,16 @@ export class SocketioService {
     return new Observable((observer) => {
       this.socket.on('sendAnswer', (message: MSG) => {
         observer.next(message);
+      });
+    });
+  }
+  startGame(gameId: string) {
+    this.socket.emit('startGame', { gameId: gameId });
+  }
+  receiveStartGame() {
+    return new Observable((observer) => {
+      this.socket.on('startGame', (role: string) => {
+        observer.next(role);
       });
     });
   }

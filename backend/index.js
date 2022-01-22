@@ -4,6 +4,7 @@ const io = require("socket.io")(httpServer, {
   cors: true,
   origins: ["*"],
 });
+
 io.on("connection", (socket) => {
   console.log("User connected"); /*
   socket.emit("message", "Hello");
@@ -20,16 +21,23 @@ io.on("connection", (socket) => {
     console.log("User Left----");
   });
 
-  socket.on("joinGame", ({ gameId, nickname }) => {
+  socket.on("joinGame", async ({ gameId, nickname }) => {
     socket.join(gameId);
     socket.nickname = nickname;
     console.log(`Player called ${socket.nickname} joined the room: ${gameId}`);
+    const sockets = await io.in(gameId).fetchSockets();
+    const nicks = sockets.map((soc) => soc.nickname);
     socket
       .to(gameId)
       .emit("joinGame", `Player called ${socket.nickname} joined the game!`);
+    io.to(gameId).emit("joinGame", nicks);
   });
+
   socket.on("startGame", async ({ gameId }) => {
-    const socket = await io.in(gameId).fetchSockets(); //pobranie uzytkownikow w pokoju
+    const sockets = await io.in(gameId).fetchSockets(); //pobranie uzytkownikow w pokoju
+    io.to(gameId).emit("startGame", "guesser");
+    const pickIndex = Math.floor(Math.random() * (sockets.length - 1));
+    sockets[pickIndex].emit("startGame", "picker");
   });
   socket.on("sendMessage", ({ gameId, message }) => {
     message.sender = socket.nickname;

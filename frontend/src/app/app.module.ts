@@ -13,6 +13,8 @@ import { ChatMessageComponent } from './components/chat/chat-message/chat-messag
 import { ChatSenderComponent } from './components/chat/chat-sender/chat-sender.component';
 import { ChampListComponent } from './components/champ/champ-list/champ-list.component';
 import { ChampItemComponent } from './components/champ/champ-item/champ-item.component';
+import { PlayerListComponent } from './components/player/player-list/player-list.component';
+import { PlayerItemComponent } from './components/player/player-item/player-item.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import { ChampItemComponent } from './components/champ/champ-item/champ-item.com
     ChatSenderComponent,
     ChampListComponent,
     ChampItemComponent,
+    PlayerListComponent,
+    PlayerItemComponent,
   ],
   imports: [
     BrowserModule,
