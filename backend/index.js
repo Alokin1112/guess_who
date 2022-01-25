@@ -35,9 +35,17 @@ io.on("connection", (socket) => {
 
   socket.on("startGame", async ({ gameId }) => {
     const sockets = await io.in(gameId).fetchSockets(); //pobranie uzytkownikow w pokoju
-    io.to(gameId).emit("startGame", "guesser");
-    const pickIndex = Math.floor(Math.random() * (sockets.length - 1));
-    sockets[pickIndex].emit("startGame", "picker");
+    if (sockets.some((ele) => ele.role == "picker")) {
+      //przypadek ze gra juz sie zaczeła, wtedy przypisz tylko osobie dołączajęcej range, bez losowania pickera
+      socket.role = "guesser";
+      socket.emit("startGame", "guesser");
+    } else {
+      sockets.forEach((el) => (el.role = "guesser"));
+      io.to(gameId).emit("startGame", "guesser");
+      const pickIndex = Math.floor(Math.random() * sockets.length - 0.001);
+      sockets[pickIndex].role = "picker";
+      sockets[pickIndex].emit("startGame", "picker");
+    }
   });
   socket.on("sendMessage", ({ gameId, message }) => {
     message.sender = socket.nickname;

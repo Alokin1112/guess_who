@@ -3,6 +3,6 @@
   *ngIf="!(champ.isGreyed && isGreyVisible == false)"
 >
   {{ champ.name }}
-  <img [src]="champ.img" alt="" />
+  <img [src]="champ.img" [alt]="champ.name" />
   <p *ngIf="champ?.isGreyed">Wyszarzony</p>
 </button>

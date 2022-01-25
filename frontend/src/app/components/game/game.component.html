@@ -4,9 +4,10 @@
     <button mat-button (click)="role = 'guesser'">Change To Guesser</button>
     <p>{{ role }}</p>
   </div>
+
   <div *ngIf="role">
     <app-chat-wrapper [role]="role" [gameId]="gameId"></app-chat-wrapper>
-    <app-champ-list></app-champ-list>
+    <app-champ-list [role]="role"></app-champ-list>
   </div>
 
   <div *ngIf="!role">

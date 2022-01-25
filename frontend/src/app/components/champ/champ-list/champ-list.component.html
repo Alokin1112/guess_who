@@ -1,13 +1,16 @@
-<button mat-raised-button (click)="reset()">Reset</button>
-<button mat-raised-button (click)="toogleVisibility()">
-  <span *ngIf="isGreyVisible">Hide Greyed Out</span>
-  <span *ngIf="!isGreyVisible">Show Greyed Out</span>
-</button>
-<mat-form-field>
-  <mat-label>Search Champ</mat-label>
-  <input matInput type="text" [formControl]="search" />
-</mat-form-field>
-<div>
+<div *ngIf="!this.pick">
+  <button mat-raised-button (click)="reset()">Reset</button>
+  <button mat-raised-button (click)="toogleVisibility()">
+    <span *ngIf="isGreyVisible">Hide Greyed Out</span>
+    <span *ngIf="!isGreyVisible">Show Greyed Out</span>
+  </button>
+
+  <mat-form-field>
+    <mat-label>Search Champ</mat-label>
+    <input matInput type="text" [formControl]="search" />
+  </mat-form-field>
+</div>
+<div *ngIf="!(this.role == 'picker' && this.pick)">
   <app-champ-item
     *ngFor="let champ of champResult()"
     [champ]="champ"
@@ -15,4 +18,8 @@
     (toogleGrey)="changeState($event)"
   >
   </app-champ-item>
+</div>
+<div *ngIf="this.role == 'picker' && this.pick">
+  <img [src]="this.pick.img" [alt]="this.pick.name" />
+  <h2>{{ this.pick.name }}</h2>
 </div>
