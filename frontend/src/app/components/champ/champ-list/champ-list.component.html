@@ -5,6 +5,11 @@
     <span *ngIf="!isGreyVisible">Show Greyed Out</span>
   </button>
 
+  <mat-checkbox
+    *ngIf="this.role == 'guesser'"
+    (change)="this.isPicking = !this.isPicking"
+    >Pickuje</mat-checkbox
+  >
   <mat-form-field>
     <mat-label>Search Champ</mat-label>
     <input matInput type="text" [formControl]="search" />

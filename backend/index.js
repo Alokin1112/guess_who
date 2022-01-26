@@ -24,12 +24,11 @@ io.on("connection", (socket) => {
   socket.on("joinGame", async ({ gameId, nickname }) => {
     socket.join(gameId);
     socket.nickname = nickname;
+    socket.role = "";
+    socket.pick = "";
     console.log(`Player called ${socket.nickname} joined the room: ${gameId}`);
     const sockets = await io.in(gameId).fetchSockets();
     const nicks = sockets.map((soc) => soc.nickname);
-    socket
-      .to(gameId)
-      .emit("joinGame", `Player called ${socket.nickname} joined the game!`);
     io.to(gameId).emit("joinGame", nicks);
   });
 
@@ -55,7 +54,19 @@ io.on("connection", (socket) => {
   socket.on("sendAnswer", ({ gameId, message }) => {
     socket.to(gameId).emit("sendAnswer", message);
   });
+  socket.on("sendPick", async ({ gameId, champ }) => {
+    if (socket.role == "picker") {
+      socket.pick = champ.name;
+      console.log(socket.pick);
+    } else if (socket.role == "guesser") {
+      const sockets = await io.in(gameId).fetchSockets();
+      const result =
+        sockets.find((ele) => ele.role == "picker").pick == champ.name;
+      console.log(result);
+    }
+  });
 });
+
 const PORT = process.env.PORT || 3000;
 httpServer.listen(PORT, () => {
   console.log(`Server Listening on Port: ${PORT}`);

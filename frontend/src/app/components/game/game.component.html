@@ -7,7 +7,12 @@
 
   <div *ngIf="role">
     <app-chat-wrapper [role]="role" [gameId]="gameId"></app-chat-wrapper>
-    <app-champ-list [role]="role"></app-champ-list>
+    <app-champ-list
+      *ngIf="canBet"
+      [role]="role"
+      (picked)="sendPickedChamp($event)"
+    ></app-champ-list>
+    <div *ngIf="!canBet">You have already picked</div>
   </div>
 
   <div *ngIf="!role">
@@ -17,7 +22,7 @@
 </div>
 
 <div *ngIf="nickname == ''">
-  <form action="" [formGroup]="name" (submit)="setNickname()">
+  <form [formGroup]="name" (submit)="setNickname()">
     <mat-form-field>
       <mat-label>Nickname</mat-label>
       <input type="text" matInput formControlName="nickname" />

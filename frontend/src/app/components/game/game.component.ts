@@ -1,3 +1,4 @@
+import { Champ } from 'src/assets/lolChamps';
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
@@ -13,6 +14,7 @@ export class GameComponent implements OnInit {
   gameId: string = '';
   role: string = '';
   nickname: string = '';
+  canBet: boolean = true;
   playersList: Array<string> = [];
   constructor(
     private _route: ActivatedRoute,
@@ -54,6 +56,15 @@ export class GameComponent implements OnInit {
       this.socketService.connect(this.gameId, this.nickname);
       this.receiveJoinedPlayers();
       this.receiveStartGame();
+    }
+  }
+  sendPickedChamp(champ: Champ) {
+    if (this.role == 'picker') this.socketService.sendPick(this.gameId, champ);
+    else if (this.role == 'guesser') {
+      if (this.canBet) {
+        this.socketService.sendPick(this.gameId, champ);
+        this.canBet = false;
+      }
     }
   }
 }

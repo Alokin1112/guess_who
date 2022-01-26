@@ -1,5 +1,5 @@
 import { NULL_EXPR } from '@angular/compiler/src/output/output_ast';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Champ, CHAMP_LIST } from '../../../../assets/lolChamps';
 @Component({
@@ -12,7 +12,10 @@ export class ChampListComponent implements OnInit {
   champs: Array<Champ> = CHAMP_LIST.slice(0, 20);
   champResults = this.champs;
   isGreyVisible: boolean = true;
+  isPicking: boolean = false;
   @Input() role: string = 'guesser';
+  @Output() picked = new EventEmitter<Champ>();
+
   pick!: Champ;
 
   ngOnInit(): void {}
@@ -31,16 +34,21 @@ export class ChampListComponent implements OnInit {
   changeState(champ: Champ) {
     if (this.role == 'guesser') {
       //dziala normalnie jezeli jesteś zgadującym
-      this.champs[
-        this.champs.findIndex((obj) => obj.name === champ.name)
-      ].isGreyed = this.champs[
-        this.champs.findIndex((obj) => obj.name === champ.name)
-      ].isGreyed
-        ? false
-        : true;
+      if (this.isPicking) {
+        this.picked.emit(champ);
+      } else {
+        this.champs[
+          this.champs.findIndex((obj) => obj.name === champ.name)
+        ].isGreyed = this.champs[
+          this.champs.findIndex((obj) => obj.name === champ.name)
+        ].isGreyed
+          ? false
+          : true;
+      }
     } else if (this.role == 'picker') {
       //sluzy do wyboru postaci jezeli jesteś pickerem
       this.pick = champ;
+      this.picked.emit(champ);
     }
   }
 }
