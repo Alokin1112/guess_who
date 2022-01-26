@@ -55,4 +55,18 @@ export class SocketioService {
   sendPick(gameId: string, champ: Champ) {
     this.socket.emit('sendPick', { gameId: gameId, champ: champ });
   }
+  receiveSendPick() {
+    return new Observable((observer) => {
+      this.socket.on('sendPick', (result: boolean) => {
+        observer.next(result);
+      });
+    });
+  }
+  receiveGameEnded() {
+    return new Observable((observer) => {
+      this.socket.on('gameEnded', (obj) => {
+        observer.next(obj);
+      });
+    });
+  }
 }

@@ -1,4 +1,5 @@
 const app = require("express");
+const { emit } = require("process");
 const httpServer = require("http").createServer(app);
 const io = require("socket.io")(httpServer, {
   cors: true,
@@ -26,6 +27,7 @@ io.on("connection", (socket) => {
     socket.nickname = nickname;
     socket.role = "";
     socket.pick = "";
+    socket.hasPicked = false;
     console.log(`Player called ${socket.nickname} joined the room: ${gameId}`);
     const sockets = await io.in(gameId).fetchSockets();
     const nicks = sockets.map((soc) => soc.nickname);
@@ -54,15 +56,28 @@ io.on("connection", (socket) => {
   socket.on("sendAnswer", ({ gameId, message }) => {
     socket.to(gameId).emit("sendAnswer", message);
   });
+
   socket.on("sendPick", async ({ gameId, champ }) => {
     if (socket.role == "picker") {
       socket.pick = champ.name;
-      console.log(socket.pick);
     } else if (socket.role == "guesser") {
       const sockets = await io.in(gameId).fetchSockets();
-      const result =
-        sockets.find((ele) => ele.role == "picker").pick == champ.name;
-      console.log(result);
+      socket.hasPicked = true;
+      const pickedChamp = sockets.find((ele) => ele.role == "picker").pick;
+      const result = pickedChamp == champ.name;
+      socket.emit("sendPick", result);
+      if (result) {
+        io.to(gameId).emit("gameEnded", {
+          who: socket.nickname,
+          what: pickedChamp,
+        });
+      } else if (
+        !sockets.some((ele) => ele.role == "guesser" && !ele.hasPicked)
+      ) {
+        //jezeli gracz nie zgadl to sprawdzamy czy jest jeszcze osoba ktora mogla zgadnąć
+        io.to(gameId).emit("gameEnded", { who: "Noone", what: pickedChamp });
+        sockets.forEach((ele) => ele.disconnect());
+      }
     }
   });
 });

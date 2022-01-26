@@ -15,6 +15,7 @@ export class GameComponent implements OnInit {
   role: string = '';
   nickname: string = '';
   canBet: boolean = true;
+
   playersList: Array<string> = [];
   constructor(
     private _route: ActivatedRoute,
@@ -47,6 +48,27 @@ export class GameComponent implements OnInit {
       .receiveStartGame()
       .subscribe((role: any) => (this.role = role));
   }
+  receiveSendPick() {
+    this.socketService.receiveSendPick().subscribe((result: any) => {
+      const snackBarText = result
+        ? 'Congratulations U Have guessed correctly'
+        : "Unfortunately u haven't won, wait for game end";
+      this.snackbar.open(snackBarText, '', {
+        duration: 3000,
+      });
+    });
+  }
+  receivGameEnded() {
+    this.socketService.receiveGameEnded().subscribe((obj: any) => {
+      this.snackbar.open(
+        `GAME ENDED !!! Won: ${obj.who} || Correct Answer was: ${obj.what}`,
+        '',
+        {
+          duration: 4000,
+        }
+      );
+    });
+  }
   startGame() {
     this.socketService.startGame(this.gameId);
   }
@@ -56,6 +78,7 @@ export class GameComponent implements OnInit {
       this.socketService.connect(this.gameId, this.nickname);
       this.receiveJoinedPlayers();
       this.receiveStartGame();
+      this.receivGameEnded();
     }
   }
   sendPickedChamp(champ: Champ) {
@@ -64,6 +87,7 @@ export class GameComponent implements OnInit {
       if (this.canBet) {
         this.socketService.sendPick(this.gameId, champ);
         this.canBet = false;
+        this.receiveSendPick();
       }
     }
   }
