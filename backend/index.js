@@ -1,3 +1,4 @@
+const uuid4 = require("uuid4");
 const app = require("express");
 const { emit } = require("process");
 const httpServer = require("http").createServer(app);
@@ -18,7 +19,20 @@ io.on("connection", (socket) => {
   });
 
   */
-  socket.on("disconnect", () => {
+  socket.on("disconnect", async () => {
+    const gameId = socket.room;
+    const sockets = await io.in(gameId).fetchSockets();
+    if (socket.role == "picker") {
+      io.to(gameId).emit("gameEnded", {
+        who: "Error, Picker Has Left Lobby",
+        what: "Error",
+        nextGame: uuid4(),
+      });
+      sockets.forEach((ele) => ele.disconnect());
+    }
+    sockets.filter((ele) => ele != socket);
+    const nicks = sockets.map((soc) => soc.nickname);
+    sockets.forEach((ele) => ele.emit("joinGame", nicks));
     console.log("User Left----");
   });
 
@@ -27,26 +41,26 @@ io.on("connection", (socket) => {
     socket.nickname = nickname;
     socket.role = "";
     socket.pick = "";
+    socket.room = gameId;
     socket.hasPicked = false;
     console.log(`Player called ${socket.nickname} joined the room: ${gameId}`);
     const sockets = await io.in(gameId).fetchSockets();
+    if (sockets.some((ele) => ele.role == "picker")) {
+      //gra juz sie zaczeła
+      socket.role = "guesser";
+      socket.emit("startGame", "guesser");
+    }
     const nicks = sockets.map((soc) => soc.nickname);
     io.to(gameId).emit("joinGame", nicks);
   });
 
   socket.on("startGame", async ({ gameId }) => {
     const sockets = await io.in(gameId).fetchSockets(); //pobranie uzytkownikow w pokoju
-    if (sockets.some((ele) => ele.role == "picker")) {
-      //przypadek ze gra juz sie zaczeła, wtedy przypisz tylko osobie dołączajęcej range, bez losowania pickera
-      socket.role = "guesser";
-      socket.emit("startGame", "guesser");
-    } else {
-      sockets.forEach((el) => (el.role = "guesser"));
-      io.to(gameId).emit("startGame", "guesser");
-      const pickIndex = Math.floor(Math.random() * sockets.length - 0.001);
-      sockets[pickIndex].role = "picker";
-      sockets[pickIndex].emit("startGame", "picker");
-    }
+    sockets.forEach((el) => (el.role = "guesser"));
+    io.to(gameId).emit("startGame", "guesser");
+    const pickIndex = Math.floor(Math.random() * sockets.length - 0.001);
+    sockets[pickIndex].role = "picker";
+    sockets[pickIndex].emit("startGame", "picker");
   });
   socket.on("sendMessage", ({ gameId, message }) => {
     message.sender = socket.nickname;
@@ -70,12 +84,18 @@ io.on("connection", (socket) => {
         io.to(gameId).emit("gameEnded", {
           who: socket.nickname,
           what: pickedChamp,
+          nextGame: uuid4(),
         });
+        sockets.forEach((ele) => ele.disconnect());
       } else if (
         !sockets.some((ele) => ele.role == "guesser" && !ele.hasPicked)
       ) {
         //jezeli gracz nie zgadl to sprawdzamy czy jest jeszcze osoba ktora mogla zgadnąć
-        io.to(gameId).emit("gameEnded", { who: "Noone", what: pickedChamp });
+        io.to(gameId).emit("gameEnded", {
+          who: "Noone",
+          what: pickedChamp,
+          nextGame: uuid4(),
+        });
         sockets.forEach((ele) => ele.disconnect());
       }
     }

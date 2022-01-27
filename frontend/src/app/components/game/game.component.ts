@@ -1,7 +1,7 @@
 import { Champ } from 'src/assets/lolChamps';
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SocketioService } from 'src/app/services/socketio.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MSG } from 'src/app/type';
@@ -19,6 +19,7 @@ export class GameComponent implements OnInit {
   playersList: Array<string> = [];
   constructor(
     private _route: ActivatedRoute,
+    private router: Router,
     private socketService: SocketioService,
     private snackbar: MatSnackBar
   ) {}
@@ -64,9 +65,14 @@ export class GameComponent implements OnInit {
         `GAME ENDED !!! Won: ${obj.who} || Correct Answer was: ${obj.what}`,
         '',
         {
-          duration: 4000,
+          duration: 2000,
         }
       );
+      setTimeout(() => {
+        const url = this.router.createUrlTree(['/game', obj.nextGame]);
+        window.open(url.toString(), '_blank');
+        window.close();
+      }, 2000);
     });
   }
   startGame() {
