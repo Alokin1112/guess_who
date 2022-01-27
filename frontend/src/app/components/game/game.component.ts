@@ -68,10 +68,12 @@ export class GameComponent implements OnInit {
           duration: 2000,
         }
       );
+      this.gameId = obj.nextGame;
+      this.role = '';
+      this.canBet = true;
       setTimeout(() => {
-        const url = this.router.createUrlTree(['/game', obj.nextGame]);
-        window.open(url.toString(), '_blank');
-        window.close();
+        this.router.navigate(['/game', obj.nextGame]);
+        this.setNickname();
       }, 2000);
     });
   }
@@ -79,7 +81,8 @@ export class GameComponent implements OnInit {
     this.socketService.startGame(this.gameId);
   }
   setNickname() {
-    this.nickname = this.name.get('nickname')?.value;
+    this.nickname =
+      this.nickname == '' ? this.name.get('nickname')?.value : this.nickname;
     if (this.nickname) {
       this.socketService.connect(this.gameId, this.nickname);
       this.receiveJoinedPlayers();
