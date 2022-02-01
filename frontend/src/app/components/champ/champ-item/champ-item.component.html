@@ -1,8 +1,20 @@
-<button
-  (click)="changeState()"
-  *ngIf="!(champ.isGreyed && isGreyVisible == false)"
->
-  {{ champ.name }}
-  <img [src]="champ.img" [alt]="champ.name" />
-  <p *ngIf="champ?.isGreyed">Wyszarzony</p>
-</button>
+<div>
+  <button
+    (click)="changeState()"
+    *ngIf="!(champ.isGreyed && isGreyVisible == false)"
+    class="button"
+  >
+  <span *ngIf="champ?.isGreyed" class="itemgrayed">
+    <img class="img" [src]="champ.img" [alt]="champ.name" />
+    <div class="champname">
+      {{ champ.name }}
+    </div>
+  </span>
+  <span *ngIf="!champ?.isGreyed">
+    <img class="img" [src]="champ.img" [alt]="champ.name" />
+    <div class="champname">
+      {{ champ.name }}
+    </div>
+  </span>
+  </button>
+</div>

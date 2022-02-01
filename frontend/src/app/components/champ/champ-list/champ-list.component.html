@@ -24,7 +24,8 @@
   >
   </app-champ-item>
 </div>
-<div *ngIf="this.role == 'picker' && this.pick">
-  <img [src]="this.pick.img" [alt]="this.pick.name" />
-  <h2>{{ this.pick.name }}</h2>
+<div *ngIf="this.role == 'picker' && this.pick" class="chosen">
+  <h1 class="chosentext">Chosen champion:</h1>
+  <img [src]="this.pick.img" [alt]="this.pick.name" class="img" />
+  <h2 class="chosentextanother">{{ this.pick.name }}</h2>
 </div>
