@@ -1,4 +1,9 @@
-<form action="" [formGroup]="chat" (submit)="sendQuestion()">
+<form
+  action=""
+  [formGroup]="chat"
+  (submit)="sendQuestion()"
+  class="sender-wrapper"
+>
   <mat-form-field>
     <mat-label>Question</mat-label>
     <input type="text" matInput formControlName="msg" />

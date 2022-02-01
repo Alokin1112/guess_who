@@ -1,27 +1,26 @@
-<div *ngIf="nickname">
-  <div>
-    <button mat-button (click)="role = 'picker'">Change to Picker</button>
-    <button mat-button (click)="role = 'guesser'">Change To Guesser</button>
-    <p>{{ role }}</p>
-  </div>
+<div *ngIf="nickname" class="game-wrapper">
+  <div class="role-wrapper">{{ role.toUpperCase() }}</div>
 
-  <div *ngIf="role">
-    <app-chat-wrapper [role]="role" [gameId]="gameId"></app-chat-wrapper>
+  <div *ngIf="role" class="content-wrapper">
     <app-champ-list
       *ngIf="canBet"
       [role]="role"
       (picked)="sendPickedChamp($event)"
     ></app-champ-list>
+    <div>
+      <app-chat-wrapper [role]="role" [gameId]="gameId"></app-chat-wrapper>
+      <app-player-list [players]="playersList"></app-player-list>
+    </div>
     <div *ngIf="!canBet">You have already picked</div>
   </div>
 
   <div *ngIf="!role">
     <button mat-raised-button (click)="startGame()">Start Game</button>
+    <app-player-list [players]="playersList"></app-player-list>
   </div>
-  <app-player-list [players]="playersList"></app-player-list>
 </div>
 
-<div *ngIf="nickname == ''">
+<div *ngIf="nickname == ''" class="nickname-wrapper">
   <form [formGroup]="name" (submit)="setNickname()">
     <mat-form-field>
       <mat-label>Nickname</mat-label>

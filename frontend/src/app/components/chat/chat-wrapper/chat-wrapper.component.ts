@@ -30,7 +30,6 @@ export class ChatWrapperComponent implements OnInit {
     };
     this.messages.push(msg);
     this.socketService.sendMessage(this.gameId, msg);
-    this.socketService.startGame(this.gameId);
   }
   answer(props: { msg: MSG; answer: string }) {
     if (this.role == 'picker') {

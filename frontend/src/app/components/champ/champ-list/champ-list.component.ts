@@ -9,7 +9,7 @@ import { Champ, CHAMP_LIST } from '../../../../assets/lolChamps';
 })
 export class ChampListComponent implements OnInit {
   constructor() {}
-  champs: Array<Champ> = CHAMP_LIST.slice(0, 20);
+  champs: Array<Champ> = CHAMP_LIST;
   champResults = this.champs;
   isGreyVisible: boolean = true;
   isPicking: boolean = false;

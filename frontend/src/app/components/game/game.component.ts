@@ -45,9 +45,10 @@ export class GameComponent implements OnInit {
     });
   }
   receiveStartGame() {
-    this.socketService
-      .receiveStartGame()
-      .subscribe((role: any) => (this.role = role));
+    this.socketService.receiveStartGame().subscribe((role: any) => {
+      console.log('start game');
+      this.role = role;
+    });
   }
   receiveSendPick() {
     this.socketService.receiveSendPick().subscribe((result: any) => {

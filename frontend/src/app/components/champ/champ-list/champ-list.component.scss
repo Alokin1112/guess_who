@@ -1,0 +1,10 @@
+.buttons-wrapper {
+  height: 5vh;
+  display: flex;
+  flex-flow: row nowrap;
+}
+.champions-wrapper {
+  height: 90vh;
+  width: 85vw;
+  overflow-y: scroll;
+}

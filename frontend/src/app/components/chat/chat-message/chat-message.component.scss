@@ -1,0 +1,7 @@
+.messages-wrapper {
+  display: flex;
+  height: 65vh;
+  width: 100%;
+  flex-flow: column-reverse nowrap;
+  overflow-y: scroll;
+}

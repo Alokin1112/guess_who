@@ -1,4 +1,4 @@
-<div *ngIf="!this.pick">
+<div *ngIf="!this.pick" class="buttons-wrapper">
   <button mat-raised-button (click)="reset()">Reset</button>
   <button mat-raised-button (click)="toogleVisibility()">
     <span *ngIf="isGreyVisible">Hide Greyed Out</span>
@@ -15,7 +15,7 @@
     <input matInput type="text" [formControl]="search" />
   </mat-form-field>
 </div>
-<div *ngIf="!(this.role == 'picker' && this.pick)">
+<div *ngIf="!(this.role == 'picker' && this.pick)" class="champions-wrapper">
   <app-champ-item
     *ngFor="let champ of champResult()"
     [champ]="champ"
