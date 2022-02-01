@@ -21,7 +21,13 @@ export class SocketioService {
       });
     });
   }
-
+  receivePicker() {
+    return new Observable((observer) => {
+      this.socket.on('receivePicker', (nick: string) => {
+        observer.next(nick);
+      });
+    });
+  }
   sendMessage(gameId: string, message: MSG) {
     this.socket.emit('sendMessage', { gameId: gameId, message: message });
   }
