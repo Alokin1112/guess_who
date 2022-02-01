@@ -15,6 +15,7 @@ export class GameComponent implements OnInit {
   role: string = '';
   nickname: string = '';
   canBet: boolean = true;
+  picker: string = '';
 
   playersList: Array<string> = [];
   constructor(
@@ -46,8 +47,11 @@ export class GameComponent implements OnInit {
   }
   receiveStartGame() {
     this.socketService.receiveStartGame().subscribe((role: any) => {
-      console.log('start game');
       this.role = role;
+    });
+    this.socketService.receivePicker().subscribe((nick: any) => {
+      console.log(nick);
+      this.picker = nick;
     });
   }
   receiveSendPick() {

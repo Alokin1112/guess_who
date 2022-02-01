@@ -2,5 +2,6 @@
   <app-player-item
     *ngFor="let player of players"
     [player]="player"
+    [role]="getRole(player)"
   ></app-player-item>
 </div>

@@ -61,7 +61,9 @@ io.on("connection", (socket) => {
     const pickIndex = Math.floor(Math.random() * sockets.length - 0.001);
     sockets[pickIndex].role = "picker";
     sockets[pickIndex].emit("startGame", "picker");
+    io.to(gameId).emit("receivePicker", sockets[pickIndex].nickname);
   });
+
   socket.on("sendMessage", ({ gameId, message }) => {
     message.sender = socket.nickname;
     socket.to(gameId).emit("sendMessage", message);
