@@ -5,6 +5,49 @@
   flex-flow: column-reverse nowrap;
   overflow-y: scroll;
 }
+.button-wrapper{
+  display: flex;
+  justify-content: space-around;
+  flex-flow: row nowrap;
+}
+.button{
+  height: auto;
+  width: 33vm;
+  border-radius: 4px;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  display: inline-block;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+}
+.buttonyes{
+  background-color: rgb(122, 201, 58); 
+  color: black; 
+  border: 2px solid #13a117;
+}
+.buttonyes:hover {
+  background-color: #13a117;
+  color: white;
+}
+.buttonidk{
+  background-color: rgb(230, 227, 94);
+  color: black; 
+  border: 2px solid #c5c906;
+}
+.buttonidk:hover {
+  background-color: #c5c906;
+  color: white;
+}
+.buttonno{
+  background-color: rgb(209, 73, 73); 
+  color: black; 
+  border: 2px solid #ca1818;
+}
+.buttonno:hover {
+  background-color: #ca1818;
+  color: white;
+}
 ::-webkit-scrollbar {
   width: 20px;
 }
