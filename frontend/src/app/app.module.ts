@@ -15,6 +15,7 @@ import { ChampListComponent } from './components/champ/champ-list/champ-list.com
 import { ChampItemComponent } from './components/champ/champ-item/champ-item.component';
 import { PlayerListComponent } from './components/player/player-list/player-list.component';
 import { PlayerItemComponent } from './components/player/player-item/player-item.component';
+import { AngularTiltModule } from 'angular-tilt';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { PlayerItemComponent } from './components/player/player-item/player-item
     BrowserAnimationsModule,
     MaterialModule,
     ReactiveFormsModule,
+    AngularTiltModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

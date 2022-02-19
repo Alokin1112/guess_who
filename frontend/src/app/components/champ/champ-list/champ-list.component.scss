@@ -2,6 +2,9 @@
   height: 5vh;
   display: flex;
   flex-flow: row nowrap;
+  & button {
+    margin-right: 2vw;
+  }
 }
 .champions-wrapper {
   height: 90vh;
@@ -14,24 +17,24 @@
   align-items: center;
   flex-flow: row wrap;
 }
-.chosen{
+.chosen {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 50vw;
   flex-flow: column nowrap;
 }
-.img{
+.img {
   max-width: 100vw;
   height: 40vh;
   border-radius: 6px;
 }
-.chosentext{
+.chosentext {
   font-family: Lato;
   font-weight: bold;
   font-size: x-large;
 }
-.chosentextanother{
+.chosentextanother {
   font-family: Lato;
   font-weight: bold;
   font-size: x-large;

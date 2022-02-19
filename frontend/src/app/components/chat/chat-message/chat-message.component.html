@@ -1,14 +1,19 @@
 <div class="messages-wrapper">
   <div *ngFor="let msg of messages.reverse()">
-    <h2>{{ msg.content }}</h2>
-    <div *ngIf="role == 'picker' && msg.answer == ''">
-      <div class="button-wrapper">
-        <button class="button buttonyes" (click)="answer(msg, 'yes')">Yes</button>
-        <button class="button buttonidk" (click)="answer(msg, 'idk')">I don't know</button>
-        <button class="button buttonno" (click)="answer(msg, 'no')">No</button>
+    <div
+      class="{{ (msg.sender === 'me' ? 'me ' : '') + msg.answer + ' message' }}"
+    >
+      <h2 class="question">{{ msg.content }}</h2>
+      <div *ngIf="role == 'picker' && msg.answer == ''">
+        <div class="button-wrapper">
+          <button class="button yes" (click)="answer(msg, 'yes')">Yes</button>
+          <button class="button idk" (click)="answer(msg, 'idk')">
+            I don't know
+          </button>
+          <button class="button no" (click)="answer(msg, 'no')">No</button>
+        </div>
       </div>
+      <p class="sender">{{ msg.sender }}</p>
     </div>
-    <p>{{ msg.sender }}</p>
-    <p>{{ msg.answer }}</p>
   </div>
 </div>
