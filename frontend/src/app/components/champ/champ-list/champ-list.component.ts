@@ -32,6 +32,9 @@ export class ChampListComponent implements OnInit {
   toogleVisibility() {
     this.isGreyVisible = !this.isGreyVisible;
   }
+  leftToPick() {
+    return this.champResults.filter((champ) => !champ.isGreyed).length;
+  }
   changeState(champ: Champ) {
     if (this.role == 'guesser') {
       //dziala normalnie jezeli jesteś zgadującym
