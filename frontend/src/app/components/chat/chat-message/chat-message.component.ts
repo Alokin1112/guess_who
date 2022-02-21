@@ -15,4 +15,7 @@ export class ChatMessageComponent implements OnInit {
   answer(message: MSG, ans: string) {
     this.sendAnswer.emit({ msg: message, answer: ans });
   }
+  messagesInOrder() {
+    return this.messages.sort((a, b) => b.id - a.id);
+  }
 }

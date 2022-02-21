@@ -17,7 +17,9 @@ export class ChampListComponent implements OnInit {
 
   pick!: Champ;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.reset();
+  }
   search: FormControl = new FormControl('');
   champResult() {
     return this.champs.filter((champ) =>

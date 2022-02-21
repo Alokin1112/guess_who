@@ -1,5 +1,5 @@
 <div class="messages-wrapper">
-  <div *ngFor="let msg of messages.reverse()">
+  <div *ngFor="let msg of messagesInOrder()">
     <div
       class="{{ (msg.sender === 'me' ? 'me ' : '') + msg.answer + ' message' }}"
     >

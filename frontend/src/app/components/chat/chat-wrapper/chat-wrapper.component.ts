@@ -19,6 +19,7 @@ export class ChatWrapperComponent implements OnInit {
 
   receiveMessage() {
     this.socketService.receiveMessage().subscribe((message: any) => {
+      message.id = this.messages.length;
       this.messages.push(message);
     });
   }
@@ -27,6 +28,7 @@ export class ChatWrapperComponent implements OnInit {
       content: content,
       sender: 'me',
       answer: '',
+      id: -1,
     };
     this.messages.push(msg);
     this.socketService.sendMessage(this.gameId, msg);
