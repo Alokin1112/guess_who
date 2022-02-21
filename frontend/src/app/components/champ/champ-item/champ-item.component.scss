@@ -1,32 +1,33 @@
-.button{
-    background-color: transparent;
-    border-radius: 6px;
-    border: none;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-    margin: 1vh;
-    transition: all .1s ease-in-out;
+.button {
+  background-color: transparent;
+  border-radius: 6px;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  margin: 0.75vh;
+  transition: all 0.1s ease-in-out;
 }
-.img{
-    max-width: 100%;
-    height: 25vh;
-    border-radius: 6px;
+.img {
+  max-width: 100%;
+  height: 20vh;
+  border-radius: 6px;
 }
-.champname{
-    display: flex;
-    justify-content: center;
-    flex-flow: column;
-    font-family: Lato;
-    font-weight: bold;
-    font-size: large;
+.champname {
+  display: flex;
+  justify-content: center;
+  flex-flow: column;
+  font-family: Lato;
+  font-weight: bold;
+  font-size: large;
 }
-.greyed{
-    font-family: Lato;
-    font-size: small;
-    font-style: italic;
+.greyed {
+  font-family: Lato;
+  font-size: small;
+  font-style: italic;
 }
-.itemgrayed{
-    filter: blur(3px) grayscale(100%);
+.itemgrayed {
+  filter: blur(3px) grayscale(100%);
 }
-.button:hover{
-    transform: scale(1.1); 
+.button:hover {
+  transform: scale(1.1);
 }

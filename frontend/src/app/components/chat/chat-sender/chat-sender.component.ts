@@ -10,10 +10,17 @@ export class ChatSenderComponent implements OnInit {
   chat: FormGroup = new FormGroup({
     msg: new FormControl(''),
   });
+  canSend: Boolean = true;
   @Output() sendMSG = new EventEmitter<string>();
   ngOnInit(): void {}
   sendQuestion() {
-    this.sendMSG.emit(this.chat.get('msg')?.value);
-    this.chat.get('msg')?.reset();
+    if (this.chat.get('msg')?.value && this.canSend) {
+      this.canSend = false;
+      this.sendMSG.emit(this.chat.get('msg')?.value);
+      this.chat.get('msg')?.reset();
+      setTimeout(() => {
+        this.canSend = true;
+      }, 4000);
+    }
   }
 }
