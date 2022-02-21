@@ -18,8 +18,10 @@
   </div>
 
   <div *ngIf="!role">
+    <p>Invite your friend send them this : {{ this.gameId }}</p>
     <button mat-raised-button (click)="startGame()">Start Game</button>
     <app-player-list [players]="playersList"></app-player-list>
+    <p>Created by: Dawid Szczepankowski & Karol Muziński</p>
   </div>
 </div>
 

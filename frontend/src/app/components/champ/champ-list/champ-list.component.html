@@ -14,9 +14,9 @@
     <mat-label>Search Champ</mat-label>
     <input matInput type="text" [formControl]="search" />
   </mat-form-field>
+  <h1>Amount of Champions:{{ champResult.length }}</h1>
 </div>
 <div *ngIf="!(this.role == 'picker' && this.pick)" class="champions-wrapper">
-  <h1>Amount of Champions:{{ champResult.length }}</h1>
   <app-champ-item
     *ngFor="let champ of champResult()"
     [champ]="champ"

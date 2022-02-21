@@ -28,7 +28,7 @@ export class ChatWrapperComponent implements OnInit {
       content: content,
       sender: 'me',
       answer: '',
-      id: -1,
+      id: this.messages.length,
     };
     this.messages.push(msg);
     this.socketService.sendMessage(this.gameId, msg);
